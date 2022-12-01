@@ -1,4 +1,5 @@
-﻿using FireSharp;
+﻿using Firebase.Storage;
+using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
@@ -16,102 +17,106 @@ public partial class MainPage : ContentPage
     string doc;
     string pat;
 
-    private const string BasePath = "https://maui-97ca5-default-rtdb.firebaseio.com/";   //본인의 FB URL
-    private const string FirebaseSecret = "cngousij3PiSkdTVwulzQdSsc9HPclf0h7M2QXPa";    // FB 비번
+    private const string BasePath = "https://signlanguage-51654-default-rtdb.firebaseio.com/";   //본인의 FB URL
+    private const string FirebaseSecret = "4oFpHzS8P2EUYLZlUSL6ZwjczyJBtoWV6n9GDrAt";    // FB 비번
     private static FirebaseClient _client;
 
 
     public MainPage()
     {
         InitializeComponent();
-        
+
         IFirebaseConfig config = new FirebaseConfig
         {
             AuthSecret = FirebaseSecret,
             BasePath = BasePath
         };
         _client = new FirebaseClient(config);
-        getfb();
 
-        Timer_Tick();
-
-    }
-
-    private void Timer_Tick()
-    {
         Device.StartTimer(TimeSpan.FromSeconds(1), () =>
         {
-            //flbl.Text = DateTime.Now.ToString();
-            if (lstbool == false)
-            {
-                getfb();
-            }
+            getfb();
             return true;
         });
     }
 
     private async void getfb()
     {
-        //FirebaseResponse response = await _client.GetAsync("MAUI");
-        FirebaseResponse response = await _client.GetAsync("PPP");
-        if (response == null)
+        FirebaseResponse response = await _client.GetAsync("MAUI");
+
+        str = response.Body.ToString();
+        if (str.Length > 7)
         {
-            flbl.Text = "Nodata";
+            str = str.Remove(0, 7);
+            str = str.Replace("\"]", "");
+            abc = str.Split("\",\"");
+            lstview.ItemsSource = abc;
+
+            for (int i = 0; i < abc.Length; i++)
+            {
+                if (abc[i].Contains("\",null,\"의사: "))
+                {
+                    abc[i] = abc[i].Replace("\",null,\"의사: ", " ");
+                }
+                else if (abc[i].Contains("\",null,\"환:"))
+                {
+                    abc[i] = abc[i].Replace("\",null,\"환:", " ");
+                }
+
+                if (abc[i].Contains("의사: "))
+                {
+                    doc = abc[i].Replace("의사: ", "");
+                }
+                else if (abc[i].Contains("환:"))
+                {
+                    pat = abc[i].Replace("환:", "");
+                }
+            }
         }
         else
         {
-            str = response.Body.ToString();
-            if (str.Length > 7)
-            {
-                str = str.Remove(0, 7);
-                str = str.Replace("\"]", "");
-                abc = str.Split("\",\"");
-                lstview.ItemsSource = abc;
-
-                for (int i = 0; i < abc.Length; i++)
-                {
-                    if (abc[i].Contains("의:"))
-                    {
-                        doc = abc[i].Replace("의:", "");
-                    }
-                    else if (abc[i].Contains("환:"))
-                    {
-                        pat = abc[i].Replace("환:", "");
-                    }
-                }
-            }
-            else
-            {
-                doc = "";
-                pat = "";
-            }
-            lbldoc.Text = doc;
-            lblpat.Text = pat;
+            doc = "";
+            pat = "";
         }
-    }
 
-    public async void RecordVideo()
+        lbldoc.Text = doc;
+        lblpat.Text = pat;
+
+    }
+    private async void setfb(string name, string keyname)
+    {
+        FirebaseResponse response = await _client.GetAsync(keyname);
+        _client.Set<int>(keyname + "/flag", 1);
+        _client.Set<string>("title", name);
+    }
+    public async void RecordVideo() //환자
     {
         if (MediaPicker.Default.IsCaptureSupported)
         {
-            FileResult video = await MediaPicker.Default.CaptureVideoAsync();  //PickPhotoAsync(); //CapturePhotoAsync(); //CaptureVideoAsync();
-            if (video != null)
+            FileResult photo = await MediaPicker.Default.CaptureVideoAsync();
+
+            if (photo != null)
             {
-                //string localFilePath = Path.Combine(FileSystem.CacheDirectory, video.FileName);
-                //resultImage.Source = localFilePath.ToString();
-                //lbln.Text = localFilePath.ToString();
-                //using Stream sourceStream = await video.OpenReadAsync();
-                //using FileStream localFileStream = File.OpenWrite(localFilePath);
-                //await sourceStream.CopyToAsync(localFileStream);
+                string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+
+                using Stream sourceStream = await photo.OpenReadAsync();
+
+                var task = new FirebaseStorage("signlanguage-51654.appspot.com",
+                new FirebaseStorageOptions
+                {
+                    ThrowOnCancel = true
+                })
+                .Child("Patient")
+                .Child(ClassId = photo.FileName.ToString())
+                .PutAsync(await photo.OpenReadAsync());
+
+                FirebaseResponse response = await _client.GetAsync("title");
+                setfb(photo.FileName.ToString(), "video");
             }
         }
-
-        //server
-
-        getfb();
     }
 
-    private void camera_Clicked(object sender, EventArgs e)
+    private void camera_Clicked(object sender, EventArgs e) //환자 녹화
     {
         RecordVideo();
     }
@@ -120,24 +125,31 @@ public partial class MainPage : ContentPage
     {
         if (MediaPicker.Default.IsCaptureSupported)
         {
-            FileResult voice = await MediaPicker.Default.CaptureVideoAsync();  //PickPhotoAsync(); //CapturePhotoAsync(); //CaptureVideoAsync();
-            if (voice != null)
+            FileResult photo = await MediaPicker.Default.CaptureVideoAsync();
+
+            if (photo != null)
             {
-                //string localFilePath = Path.Combine(FileSystem.CacheDirectory, voice.FileName);
-                //resultImage.Source = localFilePath.ToString();
-                //lbln.Text = localFilePath.ToString();
-                //using Stream sourceStream = await voice.OpenReadAsync();
-                //using FileStream localFileStream = File.OpenWrite(localFilePath);
-                //await sourceStream.CopyToAsync(localFileStream);
+                string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+
+                using Stream sourceStream = await photo.OpenReadAsync();
+
+                var task = new FirebaseStorage("signlanguage-51654.appspot.com",
+                new FirebaseStorageOptions
+                {
+                    ThrowOnCancel = true
+                })
+                .Child("Doctor")
+                .Child(ClassId = photo.FileName.ToString())
+                .PutAsync(await photo.OpenReadAsync());
+                
+
+                FirebaseResponse response = await _client.GetAsync("title");
+                setfb(photo.FileName.ToString(), "voice");
             }
         }
-
-        //server
-
-        getfb();
     }
 
-    private void record_Clicked(object sender, EventArgs e)
+    private void record_Clicked(object sender, EventArgs e) //의사 녹음
     {
         RecordVoice();
     }
@@ -162,32 +174,26 @@ public partial class MainPage : ContentPage
 
     }
 
-    private async void setfb()
-    {
-
-        //FirebaseResponse response = await _client.GetAsync("MAUI");
-        FirebaseResponse response = await _client.GetAsync("PPP");
-        if (response != null)
-        {
-            _client.Set<string>("PPP", "");
-        }
-
-    }
-
     private void trash_Clicked(object sender, EventArgs e)
     {
+        _client.Set<string>("MAUI", "");
+        _client.Set<int>("video/flag", 0);
+        _client.Set<int>("voice/flag", 0);
+        _client.Set<int>("title", 0);
+        _client.Set<int>("num", 1);
+
         str = "";
         abc = null;
         k = 0;
         j = -1;
         doc = "";
         pat = "";
+
         lstview.ItemsSource = abc;
 
         lbldoc.Text = doc;
         lblpat.Text = pat;
 
-        setfb();
 
         if (lstbool == true)
         {
@@ -198,5 +204,4 @@ public partial class MainPage : ContentPage
         }
 
     }
-
 }

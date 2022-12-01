@@ -4,8 +4,6 @@
              x:Class="uuuui.MainPage">
 
     <StackLayout x:Name="sLot">
-        
-        <Label x:Name="flbl"></Label>
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -17,55 +15,42 @@
             </Grid.ColumnDefinitions>
 
             <ImageButton Source="file.png" x:Name="File" Clicked="File_Clicked" Grid.Column="0" 
-                         WidthRequest="43" HeightRequest="43" Margin="10" />
-            
+                         WidthRequest="43" HeightRequest="35" Margin="7" />
             <ImageButton Source="trash.png" x:Name="trash" Clicked="trash_Clicked" Grid.Column="4" 
-                         WidthRequest="43" HeightRequest="43" Margin="10" />
+                         WidthRequest="43" HeightRequest="35" Margin="7" />
 
         </Grid>
 
 
-        <Frame Padding="15" BackgroundColor="WhiteSmoke" Margin="30,20,30,0" x:Name="Frame1" >
-
+        <Frame Padding="10" BackgroundColor="WhiteSmoke" Margin="30,0,30,0" x:Name="Frame1" HeightRequest="340">
             <VerticalStackLayout Spacing="5">
 
-                <Image Source="doctor.png"  WidthRequest="60" HeightRequest="60" VerticalOptions="Start"/>
-                <Label TextColor="DarkBlue" FontSize="30" Padding="100" x:Name="lbldoc" 
-                       HorizontalOptions="Center" FontAttributes="Bold"/>
-
-                <ImageButton Source="record.png" BackgroundColor="Transparent"
-                             x:Name="record" Clicked="record_Clicked"
-                         WidthRequest="60" HeightRequest="60" Margin="10"  VerticalOptions="End"/>
-                
+                <Image Source="doctor.png" HeightRequest="40" VerticalOptions="Start" Margin="30,0,0,0"/>
+                <Label TextColor="Black" FontSize="25" Text="Hello" Padding="100" x:Name="lbldoc"  HorizontalOptions="Center" FontAttributes="Bold" />
+                <ImageButton Source="record.png" x:Name="record" Clicked="record_Clicked"
+                         WidthRequest="30" HeightRequest="30" Margin="10"  VerticalOptions="End" BackgroundColor="Transparent"/>
             </VerticalStackLayout>
-
         </Frame>
         
-        <Frame Padding="15" BackgroundColor="LightBlue" Margin="30,20,30,0" x:Name="Frame2" >
-            
+        <Frame Padding="10" BackgroundColor="WhiteSmoke" Margin="30,10,30,0" x:Name="Frame2"  HeightRequest="340">
             <VerticalStackLayout Spacing="5">
 
-                <Image Source="patient.png" WidthRequest="60" HeightRequest="60" VerticalOptions="Start" />
-                <Label TextColor="Black" FontSize="30"  Padding="100" x:Name="lblpat" HorizontalOptions="Center"/>
-
-                <ImageButton Source="camera.png" BackgroundColor="Transparent"
-                             x:Name="camera" Clicked="camera_Clicked" Grid.Column="2" 
-                         WidthRequest="60" HeightRequest="60" Margin="10"  VerticalOptions="End"/>
-                
+                <Image Source="patient.png"  WidthRequest="40" HeightRequest="40" VerticalOptions="Start"/>
+                <Label TextColor="Black" FontSize="25" Text="Hello" Padding="100" x:Name="lblpat" HorizontalOptions="Center" FontAttributes="Bold"/>
+                <ImageButton Source="camera.png" x:Name="camera" Clicked="camera_Clicked" Grid.Column="2" 
+                         WidthRequest="30" HeightRequest="30" Margin="10"  VerticalOptions="End" BackgroundColor="Transparent"/>
             </VerticalStackLayout>
-            
         </Frame>
 
-        
+        <Label x:Name="lbln"/>
+
         <Grid>
-            
             <ListView x:Name="lstview" Margin="20,20,20,20" 
                   BackgroundColor="Pink" IsVisible="False"
                   >
             </ListView>
-            
         </Grid>
-
+        <Label x:Name="flbl"></Label>
         <Label x:Name="flbl2"></Label>
 
     </StackLayout>
