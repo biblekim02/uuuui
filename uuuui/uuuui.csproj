@@ -48,7 +48,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+<<<<<<< HEAD
 	  <None Remove="Resources\Fonts\malgun.ttf" />
+=======
+>>>>>>> 3d5290191ac59befdcf1d19f186015af4146ffe8
 	  <None Remove="Resources\Images\camera.png" />
 	  <None Remove="Resources\Images\doctor.png" />
 	  <None Remove="Resources\Images\file.png" />
@@ -58,7 +61,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+<<<<<<< HEAD
 	  <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
+=======
+>>>>>>> 3d5290191ac59befdcf1d19f186015af4146ffe8
 	  <PackageReference Include="FireSharp" Version="2.0.4" />
 	</ItemGroup>
 

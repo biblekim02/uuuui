@@ -10,4 +10,8 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+<<<<<<< HEAD
 </Shell>
+=======
+</Shell>
+>>>>>>> 3d5290191ac59befdcf1d19f186015af4146ffe8
