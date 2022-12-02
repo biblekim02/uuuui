@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="uuuui.MainPage">
 
+
     <StackLayout x:Name="sLot">
 
         <Grid>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition  Width="*"/>
                 <ColumnDefinition  Width="*"/>
@@ -14,42 +16,75 @@
                 <ColumnDefinition  Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <ImageButton Source="file.png" x:Name="File" Clicked="File_Clicked" Grid.Column="0" 
-                         WidthRequest="43" HeightRequest="35" Margin="7" />
-            <ImageButton Source="trash.png" x:Name="trash" Clicked="trash_Clicked" Grid.Column="4" 
-                         WidthRequest="43" HeightRequest="35" Margin="7" />
+            
+            <ImageButton Source="file.png" x:Name="File"
+                         Clicked="File_Clicked"
+                         Grid.Column="0" Margin="7"
+                         WidthRequest="43" HeightRequest="35"  />
+            
+            <ImageButton Source="trash.png" x:Name="trash"
+                         Clicked="trash_Clicked"
+                         Grid.Column="4" Margin="7" 
+                         WidthRequest="43" HeightRequest="35" />
 
         </Grid>
 
 
-        <Frame Padding="10" BackgroundColor="WhiteSmoke" Margin="30,0,30,0" x:Name="Frame1" HeightRequest="340">
-            <VerticalStackLayout Spacing="5">
+        <Frame x:Name="Frame1" BackgroundColor="WhiteSmoke" Padding="10" Margin="30,0,30,0"  HeightRequest="340" >
 
-                <Image Source="doctor.png" HeightRequest="40" VerticalOptions="Start" Margin="30,0,0,0"/>
-                <Label TextColor="Black" FontSize="25" Text="Hello" Padding="100" x:Name="lbldoc"  HorizontalOptions="Center" FontAttributes="Bold" />
-                <ImageButton Source="record.png" x:Name="record" Clicked="record_Clicked"
-                         WidthRequest="30" HeightRequest="30" Margin="10"  VerticalOptions="End" BackgroundColor="Transparent"/>
+            <VerticalStackLayout>
+
+                <Image Source="doctor.png" HeightRequest="40" VerticalOptions="Start" Margin="0,0,0,0"/>
+
+                <Label TextColor="Black" FontSize="25" x:Name="lbldoc"
+                       Margin="0" Padding="30" VerticalTextAlignment="Center"
+                       HorizontalOptions="Center" MinimumHeightRequest="240"
+                       FontAttributes="Bold" FontFamily="malg" CharacterSpacing="2" MaxLines="5" />
+
+                <ImageButton Source="record.png" x:Name="record"
+                             Clicked="record_Clicked"
+                             WidthRequest="30" HeightRequest="30" Margin="10"
+                             VerticalOptions="End" BackgroundColor="Transparent"/>
+                
             </VerticalStackLayout>
+            
         </Frame>
         
+        
         <Frame Padding="10" BackgroundColor="WhiteSmoke" Margin="30,10,30,0" x:Name="Frame2"  HeightRequest="340">
-            <VerticalStackLayout Spacing="5">
+            
+            <VerticalStackLayout>
 
-                <Image Source="patient.png"  WidthRequest="40" HeightRequest="40" VerticalOptions="Start"/>
-                <Label TextColor="Black" FontSize="25" Text="Hello" Padding="100" x:Name="lblpat" HorizontalOptions="Center" FontAttributes="Bold"/>
-                <ImageButton Source="camera.png" x:Name="camera" Clicked="camera_Clicked" Grid.Column="2" 
-                         WidthRequest="30" HeightRequest="30" Margin="10"  VerticalOptions="End" BackgroundColor="Transparent"/>
+                <Image Source="patient.png" HeightRequest="40" VerticalOptions="Start" Margin="0,0,0,0"/>
+
+                <Label TextColor="Black" FontSize="25" x:Name="lblpat"
+                       Margin="0" Padding="30" VerticalTextAlignment="Center"
+                       HorizontalOptions="Center" MinimumHeightRequest="240"
+                       FontAttributes="Bold" FontFamily="malg" CharacterSpacing="2" MaxLines="5"/>
+
+                <ImageButton Source="camera.png" x:Name="camera"
+                             Clicked="camera_Clicked" Grid.Column="2" 
+                             WidthRequest="30" HeightRequest="30" Margin="10" 
+                             VerticalOptions="End" BackgroundColor="Transparent"/>
+                
             </VerticalStackLayout>
+            
         </Frame>
+        
 
         <Label x:Name="lbln"/>
 
+        
         <Grid>
+            
             <ListView x:Name="lstview" Margin="20,20,20,20" 
                   BackgroundColor="Pink" IsVisible="False"
                   >
             </ListView>
+            
         </Grid>
+        
+        
         <Label x:Name="flbl"></Label>
         <Label x:Name="flbl2"></Label>
 

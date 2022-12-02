@@ -45,8 +45,10 @@ public partial class MainPage : ContentPage
         FirebaseResponse response = await _client.GetAsync("MAUI");
 
         str = response.Body.ToString();
+
         if (str.Length > 7)
         {
+
             str = str.Remove(0, 7);
             str = str.Replace("\"]", "");
             abc = str.Split("\",\"");
@@ -54,25 +56,29 @@ public partial class MainPage : ContentPage
 
             for (int i = 0; i < abc.Length; i++)
             {
+
                 if (abc[i].Contains("\",null,\"의사: "))
                 {
                     abc[i] = abc[i].Replace("\",null,\"의사: ", " ");
                 }
-                else if (abc[i].Contains("\",null,\"환:"))
+                else if (abc[i].Contains("\",null,\"환자: "))
                 {
-                    abc[i] = abc[i].Replace("\",null,\"환:", " ");
+                    abc[i] = abc[i].Replace("\",null,\"환자: ", " ");
                 }
 
                 if (abc[i].Contains("의사: "))
                 {
                     doc = abc[i].Replace("의사: ", "");
                 }
-                else if (abc[i].Contains("환:"))
+                else if (abc[i].Contains("환자: "))
                 {
-                    pat = abc[i].Replace("환:", "");
+                    pat = abc[i].Replace("환자: ", "");
                 }
+
             }
+
         }
+
         else
         {
             doc = "";
@@ -85,12 +91,16 @@ public partial class MainPage : ContentPage
     }
     private async void setfb(string name, string keyname)
     {
+
         FirebaseResponse response = await _client.GetAsync(keyname);
         _client.Set<int>(keyname + "/flag", 1);
         _client.Set<string>("title", name);
+
     }
+
     public async void RecordVideo() //환자
     {
+
         if (MediaPicker.Default.IsCaptureSupported)
         {
             FileResult photo = await MediaPicker.Default.CaptureVideoAsync();
@@ -112,6 +122,7 @@ public partial class MainPage : ContentPage
 
                 FirebaseResponse response = await _client.GetAsync("title");
                 setfb(photo.FileName.ToString(), "video");
+
             }
         }
     }
@@ -123,6 +134,7 @@ public partial class MainPage : ContentPage
 
     public async void RecordVoice()
     {
+
         if (MediaPicker.Default.IsCaptureSupported)
         {
             FileResult photo = await MediaPicker.Default.CaptureVideoAsync();
@@ -177,8 +189,10 @@ public partial class MainPage : ContentPage
     private void trash_Clicked(object sender, EventArgs e)
     {
         _client.Set<string>("MAUI", "");
+
         _client.Set<int>("video/flag", 0);
         _client.Set<int>("voice/flag", 0);
+
         _client.Set<int>("title", 0);
         _client.Set<int>("num", 1);
 
